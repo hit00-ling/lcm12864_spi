@@ -2,7 +2,7 @@
   "LCM12864_SPI": {
     "instantiation": {
       "kind": "function",
-      "fullyQualifiedName": "LCM12864_SPI.pixel,LCM12864_SPI.showString,LCM12864_SPI.showNumber,LCM12864_SPI.hline,LCM12864_SPI.vline,LCM12864_SPI.rect,LCM12864_SPI.invert,LCM12864_SPI.draw,LCM12864_SPI.clear,LCM12864_SPI.on,LCM12864_SPI.off,LCM12864_SPI.zoom,LCM12864_SPI.init"
+      "fullyQualifiedName": "LCM12864_SPI.pixel,LCM12864_SPI.showString,LCM12864_SPI.showNumber,LCM12864_SPI.hline,LCM12864_SPI.vline,LCM12864_SPI.rect,LCM12864_SPI.draw,LCM12864_SPI.clear,LCM12864_SPI.init"
     }
   }
 }

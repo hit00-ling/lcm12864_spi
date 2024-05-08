@@ -140,33 +140,15 @@ namespace LCM12864_SPI {
     let _buf2 = pins.createBuffer(2);
     let _buf3 = pins.createBuffer(3);
     let _buf4 = pins.createBuffer(4);
-    let _ZOOM = 1;
     let _a0_pin = DigitalPin.P14;
     let _ce_pin = DigitalPin.P2;
 
     function cmd1(d: number) {
-        let n = d % 256;
-        //pins.i2cWriteNumber(_I2CAddr, n, NumberFormat.UInt16BE);
-    }
-
-    function cmd2(d1: number, d2: number) {
-        _buf3[0] = 0;
-        _buf3[1] = d1;
-        _buf3[2] = d2;
-        //pins.i2cWriteBuffer(_I2CAddr, _buf3);
-    }
-
-    function cmd3(d1: number, d2: number, d3: number) {
-        _buf4[0] = 0;
-        _buf4[1] = d1;
-        _buf4[2] = d2;
-        _buf4[3] = d3;
-        //pins.i2cWriteBuffer(_I2CAddr, _buf4);
+        let tmp = pins.spiWrite(d);
     }
 
     function set_pos(col: number = 0, page: number = 0) {
         cmd1(0xb0 | page) // page number
-        let c = col * (_ZOOM + 1)
         cmd1(0x00 | (c % 16)) // lower start column address
         cmd1(0x10 | (c >> 4)) // upper start column address    
     }
@@ -178,11 +160,11 @@ namespace LCM12864_SPI {
         return d
     }
 
-    // write a bit to lcm
+    // write a byte to lcm
     function LCD_WRITE (dat: number) {
-        pins.digitalWritePin(_ce_pin, 0)
-        let tmp = pins.spiWrite(dat)
-        pins.digitalWritePin(_ce_pin, 1)
+        pins.digitalWritePin(_ce_pin, 0);
+        let tmp = pins.spiWrite(dat);
+        pins.digitalWritePin(_ce_pin, 1);
     }
 
     /**
@@ -197,21 +179,13 @@ namespace LCM12864_SPI {
     export function pixel(x: number, y: number, color: number = 1) {
         let page = y >> 3
         let shift_page = y % 8
-        let ind = x * (_ZOOM + 1) + page * 128 + 1
+        let ind = x + page * 128 + 1
         let b = (color) ? (_screen[ind] | (1 << shift_page)) : clrbit(_screen[ind], shift_page)
         _screen[ind] = b
         set_pos(x, page)
-        if (_ZOOM) {
-            _screen[ind + 1] = b
-            _buf3[0] = 0x40
-            _buf3[1] = _buf3[2] = b
-            //pins.i2cWriteBuffer(_I2CAddr, _buf3)
-        }
-        else {
-            _buf2[0] = 0x40
-            _buf2[1] = b
-            //pins.i2cWriteBuffer(_I2CAddr, _buf2)
-        }
+        _buf2[0] = 0x40
+        _buf2[1] = b
+        //pins.i2cWriteBuffer(_I2CAddr, _buf2)
     }
 
     /**
@@ -236,16 +210,14 @@ namespace LCM12864_SPI {
                     if (p & (1 << (5 * i + j)))
                         col |= (1 << (j + 1))
                 }
-                ind = (x + n) * 5 * (_ZOOM + 1) + y * 128 + i * (_ZOOM + 1) + 1
+                ind = (x + n) * 5 + y * 128 + i + 1
                 if (color == 0)
                     col = 255 - col
                 _screen[ind] = col
-                if (_ZOOM)
-                    _screen[ind + 1] = col
             }
         }
         set_pos(x * 5, y)
-        let ind0 = x * 5 * (_ZOOM + 1) + y * 128
+        let ind0 = x * 5 + y * 128
         let buf = _screen.slice(ind0, ind + 1)
         buf[0] = 0x40
         ////pins.i2cWriteBuffer(_I2CAddr, buf)
@@ -318,18 +290,6 @@ namespace LCM12864_SPI {
     }
 
     /**
-     * 屏幕内容反显。true反显，false正常显示
-     * @param d true: invert / false: normal, eg: true
-     */
-    //% blockId="LCM12864_SPI_INVERT" block="屏幕反显 %d"
-    //% weight=65 blockGap=8
-    //% parts=LCM12864_SPI trackArgs=0
-    export function invert(d: boolean = true) {
-        let n = (d) ? 0xA7 : 0xA6
-        cmd1(n)
-    }
-
-    /**
      * 重新绘制屏幕的显示内容
      */
     //% blockId="LCM12864_SPI_DRAW" block="刷新显示"
@@ -353,40 +313,12 @@ namespace LCM12864_SPI {
     }
 
     /**
-     * 打开 OLED 模块的屏幕显示
-     */
-    //% blockId="LCM12864_SPI_ON" block="显示打开"
-    //% weight=62 blockGap=8
-    //% parts=LCM12864_SPI trackArgs=0
-    export function on() {
-        cmd1(0xAF)
-    }
-
-    /**
-     * 关闭 OLED 模块的屏幕显示
-     */
-    //% blockId="LCM12864_SPI_OFF" block="显示关闭"
-    //% weight=61 blockGap=8
-    //% parts=LCM12864_SPI trackArgs=0
-    export function off() {
-        cmd1(0xAE)
-    }
-
-    /**
-     * 放大模式，true放大显示，false正常显示
-     * @param d true zoom / false normal, eg: true
-     */
-    //% blockId="LCM12864_SPI_ZOOM" block="放大模式 %d"
-    //% weight=60 blockGap=8
-    //% parts=LCM12864_SPI trackArgs=0
-    export function zoom(d: boolean = true) {
-        _ZOOM = (d) ? 1 : 0
-        cmd2(0xd6, _ZOOM)
-    }
-
-    /**
-     * OLED 初始化
-     * @param addr 是 i2c 地址, eg: 60
+     * 液晶初始化
+     * @param nCE：片选信号
+     * @param A0：地址选择
+     * @param nRST：复位信号
+     * @param nSCK：同步时钟
+     * @param nSDI：数据输出
      */
     //% blockId="LCM12864_SPI_init" block="初始化液晶屏，设置引脚：|nCE %ce|nRST %rst|A0 %a0|SCK %sck|SDI %sdi|对比度 %cnst"
     //% weight=100 blockGap=8
@@ -400,16 +332,16 @@ namespace LCM12864_SPI {
 
         pins.digitalWritePin(_ce_pin, 1)
         pins.digitalWritePin(rst, 0)
-        basic.pause(50)
+        basic.pause(20)
         pins.digitalWritePin(rst, 1)
-        basic.pause(100)
+        basic.pause(50)
         pins.digitalWritePin(_a0_pin, 0)
 
         LCD_WRITE(0xe2)
         LCD_WRITE(0x2f)
         LCD_WRITE(0xaf)
         LCD_WRITE(0x81)
-        LCD_WRITE(0x18)
+        LCD_WRITE(cnst) // 0x18
         LCD_WRITE(0xa2)
         LCD_WRITE(0xa0)
         LCD_WRITE(0xc8)
