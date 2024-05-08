@@ -1,6 +1,6 @@
 {
     "name": "LCM12864_SPI",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "description": "makecode 的 micro:bit 版 I2C 接口 OLED 128 x 64 显示模块扩展，来自 MicroPython/micro:bit 中文社区",
     "license": "MIT",
     "dependencies": {
@@ -10,7 +10,6 @@
         "README.md",
         "pxtparts.json",
         "LCM12864_SPI.ts",
-        "parts/LCM12864_SPI.svg"
     ],
     "testFiles": [
         "test.ts"

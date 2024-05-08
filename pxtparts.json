@@ -1,29 +1,5 @@
 {
   "LCM12864_SPI": {
-    "visual": {
-      "image": "parts/LCM12864_SPI.svg",
-      "width": 82,
-      "height": 82,
-      "pinDistance": 7.2,
-      "pinLocations": [
-        {
-          "x": 29,
-          "y": 5
-        },
-        {
-          "x": 37,
-          "y": 5
-        },
-        {
-          "x": 44,
-          "y": 5
-        },
-        {
-          "x": 51,
-          "y": 5
-        }
-      ]
-    },
     "numberOfPins": 7,
     "instantiation": {
       "kind": "function",
