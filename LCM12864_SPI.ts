@@ -136,12 +136,13 @@ namespace LCM12864_SPI {
     font[126] = 0x00841080;
     font[127] = 0x0022d422;
 
-    let _I2CAddr = 0;
     let _screen = pins.createBuffer(1025);
     let _buf2 = pins.createBuffer(2);
     let _buf3 = pins.createBuffer(3);
     let _buf4 = pins.createBuffer(4);
     let _ZOOM = 1;
+    let _a0_pin = DigitalPin.P14;
+    let _ce_pin = DigitalPin.P2;
 
     function cmd1(d: number) {
         let n = d % 256;
@@ -175,6 +176,13 @@ namespace LCM12864_SPI {
         if (d & (1 << b))
             d -= (1 << b)
         return d
+    }
+
+    // write a bit to lcm
+    function LCD_WRITE (dat: number) {
+        pins.digitalWritePin(_ce_pin, 0)
+        tmp = pins.spiWrite(dat)
+        pins.digitalWritePin(_ce_pin, 1)
     }
 
     /**
@@ -380,31 +388,32 @@ namespace LCM12864_SPI {
      * OLED 初始化
      * @param addr 是 i2c 地址, eg: 60
      */
-    //% blockId="LCM12864_SPI_init" block="初始化 OLED，设置 I2C 地址为 %addr"
+    //% blockId="LCM12864_SPI_init" block="初始化 OLED，设置引脚【nCE 为 %ce，nRST 为 %rst，A0 为 %a0，SCK 为 %sck，SDI 为 %sdi】，对比度 %cnst"
     //% weight=100 blockGap=8
     //% parts=LCM12864_SPI trackArgs=0
-    export function init(addr: number) {
-        _I2CAddr = addr;
-        cmd1(0xAE)       // SSD1306_DISPLAYOFF
-        cmd1(0xA4)       // SSD1306_DISPLAYALLON_RESUME
-        cmd2(0xD5, 0xF0) // SSD1306_SETDISPLAYCLOCKDIV
-        cmd2(0xA8, 0x3F) // SSD1306_SETMULTIPLEX
-        cmd2(0xD3, 0x00) // SSD1306_SETDISPLAYOFFSET
-        cmd1(0 | 0x0)    // line #SSD1306_SETSTARTLINE
-        cmd2(0x8D, 0x14) // SSD1306_CHARGEPUMP
-        cmd2(0x20, 0x00) // SSD1306_MEMORYMODE
-        cmd3(0x21, 0, 127) // SSD1306_COLUMNADDR
-        cmd3(0x22, 0, 63)  // SSD1306_PAGEADDR
-        cmd1(0xa0 | 0x1) // SSD1306_SEGREMAP
-        cmd1(0xc8)       // SSD1306_COMSCANDEC
-        cmd2(0xDA, 0x12) // SSD1306_SETCOMPINS
-        cmd2(0x81, 0xCF) // SSD1306_SETCONTRAST
-        cmd2(0xd9, 0xF1) // SSD1306_SETPRECHARGE
-        cmd2(0xDB, 0x40) // SSD1306_SETVCOMDETECT
-        cmd1(0xA6)       // SSD1306_NORMALDISPLAY
-        cmd2(0xD6, 1)    // zoom on
-        cmd1(0xAF)       // SSD1306_DISPLAYON
-        clear()
-        _ZOOM = 1
+    export function init(ce: DigitalPin, rst: DigitalPin, a0: DigitalPin, sck: DigitalPin, sdi: DigitalPin, cnst: number = 0x18) {
+        _ce_pin = ce;
+        _a0_pin = a0;
+        pins.spiPins(sdi, sdi, sck)
+        pins.spiFormat(8, 0)
+        pins.spiFrequency(3000000)
+
+        pins.digitalWritePin(_ce_pin, 1)
+        pins.digitalWritePin(rst, 0)
+        basic.pause(50)
+        pins.digitalWritePin(rst, 1)
+        basic.pause(100)
+        pins.digitalWritePin(_a0_pin, 0)
+
+        LCD_WRITE(0xe2)
+        LCD_WRITE(0x2f)
+        LCD_WRITE(0xaf)
+        LCD_WRITE(0x81)
+        LCD_WRITE(0x18)
+        LCD_WRITE(0xa2)
+        LCD_WRITE(0xa0)
+        LCD_WRITE(0xc8)
+        LCD_WRITE(0xa7)
+
     }
 }
