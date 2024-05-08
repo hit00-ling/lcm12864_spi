@@ -388,7 +388,7 @@ namespace LCM12864_SPI {
      * OLED 初始化
      * @param addr 是 i2c 地址, eg: 60
      */
-    //% blockId="LCM12864_SPI_init" block="初始化 OLED，设置引脚：|nCE %ce，nRST %rst，A0 %a0|SCK %sck，SDI %sdi|对比度 %cnst"
+    //% blockId="LCM12864_SPI_init" block="初始化液晶屏，设置引脚：|nCE %ce|nRST %rst|A0 %a0|SCK %sck|SDI %sdi|对比度 %cnst"
     //% weight=100 blockGap=8
     //% parts=LCM12864_SPI trackArgs=0
     export function init(ce: DigitalPin = DigitalPin.P2, rst: DigitalPin = DigitalPin.P13, a0: DigitalPin = DigitalPin.P14, sck: DigitalPin = DigitalPin.P15, sdi: DigitalPin = DigitalPin.P16, cnst: number = 0x18) {
