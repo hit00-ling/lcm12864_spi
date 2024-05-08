@@ -1,5 +1,5 @@
 {
-  "OLED12864_I2C": {
+  "LCM12864_SPI": {
     "visual": {
       "image": "parts/OLED12864_I2C.svg",
       "width": 82,
@@ -24,32 +24,47 @@
         }
       ]
     },
-    "numberOfPins": 4,
+    "numberOfPins": 7,
     "instantiation": {
       "kind": "function",
-      "fullyQualifiedName": "OLED12864_I2C.pixel,OLED12864_I2C.showString,OLED12864_I2C.showNumber,OLED12864_I2C.hline,OLED12864_I2C.vline,OLED12864_I2C.rect,OLED12864_I2C.invert,OLED12864_I2C.draw,OLED12864_I2C.clear,OLED12864_I2C.on,OLED12864_I2C.off,OLED12864_I2C.zoom,OLED12864_I2C.init",
+      "fullyQualifiedName": "LCM12864_SPI.pixel,LCM12864_SPI.showString,LCM12864_SPI.showNumber,LCM12864_SPI.hline,LCM12864_SPI.vline,LCM12864_SPI.rect,LCM12864_SPI.invert,LCM12864_SPI.draw,LCM12864_SPI.clear,LCM12864_SPI.on,LCM12864_SPI.off,LCM12864_SPI.zoom,LCM12864_SPI.init",
       "argumentRoles": [{
                     "pinInstantiationIdx": 0
                 }]
     },
     "pinDefinitions": [
       {
-        "target": "threeVolt",
-        "style": "male",
-        "orientation": "+Y"
-      },
-      {
         "target": "ground",
         "style": "male",
         "orientation": "+Y"
       },
       {
-        "target": "SCL",
+        "target": "threeVolt",
         "style": "male",
         "orientation": "+Y"
       },
       {
-        "target": "SDA",
+        "target": "SDI",
+        "style": "male",
+        "orientation": "+Y"
+      },
+      {
+        "target": "SCK",
+        "style": "male",
+        "orientation": "+Y"
+      },
+      {
+        "target": "A0",
+        "style": "male",
+        "orientation": "+Y"
+      },
+      {
+        "target": "nRST",
+        "style": "male",
+        "orientation": "+Y"
+      },
+      {
+        "target": "nCS",
         "style": "male",
         "orientation": "+Y"
       }
@@ -60,7 +75,10 @@
           0,
           1,
           2,
-          3
+          3,
+          4,
+          5,
+          6
         ]
       }
     ]
