@@ -4,8 +4,8 @@
 * http://www.micropython.org.cn
 */
 
-//% weight=20 color=#0855AA icon="O" block="OLED12864_I2C"
-namespace OLED12864_I2C {
+//% weight=20 color=#0855AA icon="O" block="LCM12864_SPI"
+namespace LCM12864_SPI {
     let font: number[] = [];
     font[0] = 0x0022d422;
     font[1] = 0x0022d422;
@@ -183,9 +183,9 @@ namespace OLED12864_I2C {
      * @param y is Y alis, eg: 0
      * @param color is dot color, eg: 1
      */
-    //% blockId="OLED12864_I2C_PIXEL" block="显示像素 x %x|y %y|颜色 %color"
+    //% blockId="LCM12864_SPI_PIXEL" block="显示像素 x %x|y %y|颜色 %color"
     //% weight=70 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function pixel(x: number, y: number, color: number = 1) {
         let page = y >> 3
         let shift_page = y % 8
@@ -213,9 +213,9 @@ namespace OLED12864_I2C {
      * @param s is the text will be show, eg: 'Hello!'
      * @param color is string color, eg: 1
      */
-    //% blockId="OLED12864_I2C_SHOWSTRING" block="显示文字 x %x|y %y|文字 %s|颜色 %color"
+    //% blockId="LCM12864_SPI_SHOWSTRING" block="显示文字 x %x|y %y|文字 %s|颜色 %color"
     //% weight=80 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function showString(x: number, y: number, s: string, color: number = 1) {
         let col = 0
         let p = 0
@@ -250,9 +250,9 @@ namespace OLED12864_I2C {
      * @param num is the number will be show, eg: 12
      * @param color is number color, eg: 1
      */
-    //% blockId="OLED12864_I2C_NUMBER" block="显示数字 x %x|y %y|数字 %num|颜色 %color"
+    //% blockId="LCM12864_SPI_NUMBER" block="显示数字 x %x|y %y|数字 %num|颜色 %color"
     //% weight=80 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function showNumber(x: number, y: number, num: number, color: number = 1) {
         showString(x, y, num.toString(), color)
     }
@@ -264,9 +264,9 @@ namespace OLED12864_I2C {
      * @param len is the length of line, eg: 10
      * @param color is line color, eg: 1
      */
-    //% blockId="OLED12864_I2C_HLINE" block="绘制水平线段 x %x|y %y|长度 %len|颜色 %color"
+    //% blockId="LCM12864_SPI_HLINE" block="绘制水平线段 x %x|y %y|长度 %len|颜色 %color"
     //% weight=71 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function hline(x: number, y: number, len: number, color: number = 1) {
         for (let i = x; i < (x + len); i++)
             pixel(i, y, color)
@@ -279,9 +279,9 @@ namespace OLED12864_I2C {
      * @param len is the length of line, eg: 10
      * @param color is line color, eg: 1
      */
-    //% blockId="OLED12864_I2C_VLINE" block="绘制垂直线段 x %x|y %y|长度 %len|颜色 %color"
+    //% blockId="LCM12864_SPI_VLINE" block="绘制垂直线段 x %x|y %y|长度 %len|颜色 %color"
     //% weight=72 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function vline(x: number, y: number, len: number, color: number = 1) {
         for (let i = y; i < (y + len); i++)
             pixel(x, i, color)
@@ -295,9 +295,9 @@ namespace OLED12864_I2C {
      * @param y2 is Y alis, eg: 30
      * @param color is line color, eg: 1
      */
-    //% blockId="OLED12864_I2C_RECT" block="绘制矩形 x1 %x1|y1 %y1|x2 %x2|y2 %y2|颜色 %color"
+    //% blockId="LCM12864_SPI_RECT" block="绘制矩形 x1 %x1|y1 %y1|x2 %x2|y2 %y2|颜色 %color"
     //% weight=73 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function rect(x1: number, y1: number, x2: number, y2: number, color: number = 1) {
         if (x1 > x2)
             x1 = [x2, x2 = x1][0];
@@ -313,9 +313,9 @@ namespace OLED12864_I2C {
      * 屏幕内容反显。true反显，false正常显示
      * @param d true: invert / false: normal, eg: true
      */
-    //% blockId="OLED12864_I2C_INVERT" block="屏幕反显 %d"
+    //% blockId="LCM12864_SPI_INVERT" block="屏幕反显 %d"
     //% weight=65 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function invert(d: boolean = true) {
         let n = (d) ? 0xA7 : 0xA6
         cmd1(n)
@@ -324,9 +324,9 @@ namespace OLED12864_I2C {
     /**
      * 重新绘制屏幕的显示内容
      */
-    //% blockId="OLED12864_I2C_DRAW" block="刷新显示"
+    //% blockId="LCM12864_SPI_DRAW" block="刷新显示"
     //% weight=64 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function draw() {
         set_pos()
         pins.i2cWriteBuffer(_I2CAddr, _screen)
@@ -335,9 +335,9 @@ namespace OLED12864_I2C {
     /**
      * 清除 OLED 模块的显示内容
      */
-    //% blockId="OLED12864_I2C_CLEAR" block="清除显示内容"
+    //% blockId="LCM12864_SPI_CLEAR" block="清除显示内容"
     //% weight=63 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function clear() {
         _screen.fill(0)
         _screen[0] = 0x40
@@ -347,9 +347,9 @@ namespace OLED12864_I2C {
     /**
      * 打开 OLED 模块的屏幕显示
      */
-    //% blockId="OLED12864_I2C_ON" block="显示打开"
+    //% blockId="LCM12864_SPI_ON" block="显示打开"
     //% weight=62 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function on() {
         cmd1(0xAF)
     }
@@ -357,9 +357,9 @@ namespace OLED12864_I2C {
     /**
      * 关闭 OLED 模块的屏幕显示
      */
-    //% blockId="OLED12864_I2C_OFF" block="显示关闭"
+    //% blockId="LCM12864_SPI_OFF" block="显示关闭"
     //% weight=61 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function off() {
         cmd1(0xAE)
     }
@@ -368,9 +368,9 @@ namespace OLED12864_I2C {
      * 放大模式，true放大显示，false正常显示
      * @param d true zoom / false normal, eg: true
      */
-    //% blockId="OLED12864_I2C_ZOOM" block="放大模式 %d"
+    //% blockId="LCM12864_SPI_ZOOM" block="放大模式 %d"
     //% weight=60 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function zoom(d: boolean = true) {
         _ZOOM = (d) ? 1 : 0
         cmd2(0xd6, _ZOOM)
@@ -380,9 +380,9 @@ namespace OLED12864_I2C {
      * OLED 初始化
      * @param addr 是 i2c 地址, eg: 60
      */
-    //% blockId="OLED12864_I2C_init" block="初始化 OLED，设置 I2C 地址为 %addr"
+    //% blockId="LCM12864_SPI_init" block="初始化 OLED，设置 I2C 地址为 %addr"
     //% weight=100 blockGap=8
-    //% parts=OLED12864_I2C trackArgs=0
+    //% parts=LCM12864_SPI trackArgs=0
     export function init(addr: number) {
         _I2CAddr = addr;
         cmd1(0xAE)       // SSD1306_DISPLAYOFF

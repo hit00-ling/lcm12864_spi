@@ -1,7 +1,7 @@
 {
   "LCM12864_SPI": {
     "visual": {
-      "image": "parts/OLED12864_I2C.svg",
+      "image": "parts/LCM12864_SPI.svg",
       "width": 82,
       "height": 82,
       "pinDistance": 7.2,
