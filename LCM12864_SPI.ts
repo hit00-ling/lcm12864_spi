@@ -146,14 +146,14 @@ namespace LCM12864_SPI {
 
     function cmd1(d: number) {
         let n = d % 256;
-        pins.i2cWriteNumber(_I2CAddr, n, NumberFormat.UInt16BE);
+        //pins.i2cWriteNumber(_I2CAddr, n, NumberFormat.UInt16BE);
     }
 
     function cmd2(d1: number, d2: number) {
         _buf3[0] = 0;
         _buf3[1] = d1;
         _buf3[2] = d2;
-        pins.i2cWriteBuffer(_I2CAddr, _buf3);
+        //pins.i2cWriteBuffer(_I2CAddr, _buf3);
     }
 
     function cmd3(d1: number, d2: number, d3: number) {
@@ -161,7 +161,7 @@ namespace LCM12864_SPI {
         _buf4[1] = d1;
         _buf4[2] = d2;
         _buf4[3] = d3;
-        pins.i2cWriteBuffer(_I2CAddr, _buf4);
+        //pins.i2cWriteBuffer(_I2CAddr, _buf4);
     }
 
     function set_pos(col: number = 0, page: number = 0) {
@@ -181,7 +181,7 @@ namespace LCM12864_SPI {
     // write a bit to lcm
     function LCD_WRITE (dat: number) {
         pins.digitalWritePin(_ce_pin, 0)
-        tmp = pins.spiWrite(dat)
+        let tmp = pins.spiWrite(dat)
         pins.digitalWritePin(_ce_pin, 1)
     }
 
@@ -205,12 +205,12 @@ namespace LCM12864_SPI {
             _screen[ind + 1] = b
             _buf3[0] = 0x40
             _buf3[1] = _buf3[2] = b
-            pins.i2cWriteBuffer(_I2CAddr, _buf3)
+            //pins.i2cWriteBuffer(_I2CAddr, _buf3)
         }
         else {
             _buf2[0] = 0x40
             _buf2[1] = b
-            pins.i2cWriteBuffer(_I2CAddr, _buf2)
+            //pins.i2cWriteBuffer(_I2CAddr, _buf2)
         }
     }
 
@@ -248,7 +248,7 @@ namespace LCM12864_SPI {
         let ind0 = x * 5 * (_ZOOM + 1) + y * 128
         let buf = _screen.slice(ind0, ind + 1)
         buf[0] = 0x40
-        pins.i2cWriteBuffer(_I2CAddr, buf)
+        ////pins.i2cWriteBuffer(_I2CAddr, buf)
     }
 
     /**
@@ -337,7 +337,7 @@ namespace LCM12864_SPI {
     //% parts=LCM12864_SPI trackArgs=0
     export function draw() {
         set_pos()
-        pins.i2cWriteBuffer(_I2CAddr, _screen)
+        //pins.i2cWriteBuffer(_I2CAddr, _screen)
     }
 
     /**
