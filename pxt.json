@@ -9,7 +9,7 @@
     "files": [
         "README.md",
         "pxtparts.json",
-        "LCM12864_SPI.ts",
+        "LCM12864_SPI.ts"
     ],
     "testFiles": [
         "test.ts"
