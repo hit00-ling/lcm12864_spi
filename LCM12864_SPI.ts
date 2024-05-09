@@ -223,13 +223,11 @@ namespace LCM12864_SPI {
         }
         set_pos(x * 5, y)
         let ind0 = x * 5 + y * 128
-        let buf = _screen.slice(ind0, ind + 1)
-        buf[0] = 0x40
-        pins.digitalWritePin(_a0_pin, 1)
-        pins.digitalWritePin(_ce_pin, 0)
-        pins.spiTransfer(buf, null)
-        pins.digitalWritePin(_ce_pin, 1)
-    }
+        
+        pins.digitalWritePin(_a0_pin, 1);	//	LCMDI=1;
+        for(let i=0; i<(ind + 1); i++)
+            LCD_WRITE(_screen[ind0+i]);
+}
 
     /**
      * 显示一个整数
