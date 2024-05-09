@@ -364,7 +364,7 @@ namespace LCM12864_SPI {
         LCD_WRITE(0xa2)
         LCD_WRITE(0xa0)
         LCD_WRITE(0xc8)
-        LCD_WRITE(0xa7)
+        LCD_WRITE(0xa6)
 
     }
 }
