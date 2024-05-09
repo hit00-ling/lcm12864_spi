@@ -304,11 +304,19 @@ namespace LCM12864_SPI {
     //% weight=64 blockGap=8
     //% parts=LCM12864_SPI trackArgs=0
     export function draw() {
-        set_pos()
-        pins.digitalWritePin(_a0_pin, 1)
+        
+        
         pins.digitalWritePin(_ce_pin, 0)
         pins.spiTransfer(_screen, null)
         pins.digitalWritePin(_ce_pin, 1)
+    
+        for (let j=0;j<8;j++)
+        {
+            set_pos(0,j);
+            pins.digitalWritePin(_a0_pin, 1);	//	LCMDI=1;
+            for(let i=0; i<128; i++)
+                LCD_WRITE(_screen[i+128*j]);
+        }
     }
 
     /**
