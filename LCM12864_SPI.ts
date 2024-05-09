@@ -143,8 +143,21 @@ namespace LCM12864_SPI {
     let _a0_pin = DigitalPin.P14;
     let _ce_pin = DigitalPin.P2;
 
+    // write a byte to lcm
+    function LCD_WRITE (dat: number) {
+        pins.digitalWritePin(_ce_pin, 0);
+        let tmp = pins.spiWrite(dat);
+        pins.digitalWritePin(_ce_pin, 1);
+    }
+
     function cmd1(d: number) {
-        let tmp = pins.spiWrite(d);
+        pins.digitalWritePin(_a0_pin, 0)
+        LCD_WRITE(d);
+    }
+
+    function dat1(d: number) {
+        pins.digitalWritePin(_a0_pin, 1)
+        LCD_WRITE(d);
     }
 
     function set_pos(col: number = 0, page: number = 0) {
@@ -160,14 +173,7 @@ namespace LCM12864_SPI {
             d -= (1 << b)
         return d
     }
-
-    // write a byte to lcm
-    function LCD_WRITE (dat: number) {
-        pins.digitalWritePin(_ce_pin, 0);
-        let tmp = pins.spiWrite(dat);
-        pins.digitalWritePin(_ce_pin, 1);
-    }
-
+    
     /**
      * 在 OLED 上显示一个像素
      * @param x is X alis, eg: 0
@@ -184,9 +190,7 @@ namespace LCM12864_SPI {
         let b = (color) ? (_screen[ind] | (1 << shift_page)) : clrbit(_screen[ind], shift_page)
         _screen[ind] = b
         set_pos(x, page)
-        _buf2[0] = 0x40
-        _buf2[1] = b
-        //pins.i2cWriteBuffer(_I2CAddr, _buf2)
+        dat1(b);
     }
 
     /**
@@ -221,7 +225,8 @@ namespace LCM12864_SPI {
         let ind0 = x * 5 + y * 128
         let buf = _screen.slice(ind0, ind + 1)
         buf[0] = 0x40
-        ////pins.i2cWriteBuffer(_I2CAddr, buf)
+        pins.digitalWritePin(_a0_pin, 1)
+        pins.spiTransfer(buf, null)
     }
 
     /**
