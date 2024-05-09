@@ -161,7 +161,7 @@ namespace LCM12864_SPI {
     }
 
     function set_pos(col: number = 0, page: number = 0) {
-        cmd1(0xb0 | page) // page number
+        cmd1(0xb0 | (page & 0x07)) // page number
         let c = (col % 128);
         cmd1(0x00 | (c % 16)) // lower start column address
         cmd1(0x10 | (c >> 4)) // upper start column address    
@@ -223,10 +223,10 @@ namespace LCM12864_SPI {
         }
         set_pos(x * 5, y)
         let ind0 = x * 5 + y * 128
-        
+
         pins.digitalWritePin(_a0_pin, 1);	//	LCMDI=1;
-        for(let i=0; i<(ind + 1); i++)
-            LCD_WRITE(_screen[ind0+i]);
+        for(let i=ind0; i<(ind + 1); i++)
+            LCD_WRITE(_screen[i]);
 }
 
     /**
