@@ -226,7 +226,9 @@ namespace LCM12864_SPI {
         let buf = _screen.slice(ind0, ind + 1)
         buf[0] = 0x40
         pins.digitalWritePin(_a0_pin, 1)
+        pins.digitalWritePin(_ce_pin, 0)
         pins.spiTransfer(buf, null)
+        pins.digitalWritePin(_ce_pin, 1)
     }
 
     /**
@@ -303,7 +305,10 @@ namespace LCM12864_SPI {
     //% parts=LCM12864_SPI trackArgs=0
     export function draw() {
         set_pos()
-        //pins.i2cWriteBuffer(_I2CAddr, _screen)
+        pins.digitalWritePin(_a0_pin, 1)
+        pins.digitalWritePin(_ce_pin, 0)
+        pins.spiTransfer(_screen, null)
+        pins.digitalWritePin(_ce_pin, 1)
     }
 
     /**
