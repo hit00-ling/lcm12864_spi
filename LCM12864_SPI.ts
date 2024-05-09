@@ -197,9 +197,10 @@ namespace LCM12864_SPI {
      * @param s is the text will be show, eg: 'Hello!'
      * @param color is string color, eg: 1
      */
-    //% blockId="LCM12864_SPI_SHOWSTRING" block="显示文字 x %x|y %y|文字 %s|颜色 %color"
+    //% blockId="LCM12864_SPI_SHOWSTRING" block="显示文字，位置：x %x|y %y|文字 %s|颜色 %color"
     //% weight=80 blockGap=20
     //% parts=LCM12864_SPI trackArgs=0
+    //% inlineInputMode=inline
     export function showString(x: number, y: number, s: string, color: number = 1) {
         let col = 0
         let p = 0
