@@ -137,9 +137,6 @@ namespace LCM12864_SPI {
     font[127] = 0x0022d422;
 
     let _screen = pins.createBuffer(1025);
-    let _buf2 = pins.createBuffer(2);
-    let _buf3 = pins.createBuffer(3);
-    let _buf4 = pins.createBuffer(4);
     let _a0_pin = DigitalPin.P14;
     let _ce_pin = DigitalPin.P2;
 
@@ -201,7 +198,7 @@ namespace LCM12864_SPI {
      * @param color is string color, eg: 1
      */
     //% blockId="LCM12864_SPI_SHOWSTRING" block="显示文字 x %x|y %y|文字 %s|颜色 %color"
-    //% weight=80 blockGap=8
+    //% weight=80 blockGap=20
     //% parts=LCM12864_SPI trackArgs=0
     export function showString(x: number, y: number, s: string, color: number = 1) {
         let col = 0
