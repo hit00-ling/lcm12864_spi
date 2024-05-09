@@ -177,9 +177,10 @@ namespace LCM12864_SPI {
      * @param y is Y alis, eg: 0
      * @param color is dot color, eg: 1
      */
-    //% blockId="LCM12864_SPI_PIXEL" block="显示像素 x %x|y %y|颜色 %color"
+    //% blockId="LCM12864_SPI_PIXEL" block="显示像素，位置(x %x, y %y)|颜色 %color"
     //% weight=70 blockGap=8
     //% parts=LCM12864_SPI trackArgs=0
+    //% inlineInputMode=inline
     export function pixel(x: number, y: number, color: number = 1) {
         let page = y >> 3
         let shift_page = y % 8
@@ -197,7 +198,7 @@ namespace LCM12864_SPI {
      * @param s is the text will be show, eg: 'Hello!'
      * @param color is string color, eg: 1
      */
-    //% blockId="LCM12864_SPI_SHOWSTRING" block="显示文字，位置：x %x|y %y|文字 %s|颜色 %color"
+    //% blockId="LCM12864_SPI_SHOWSTRING" block="显示文字，位置(x %x, y %y)|文字 %s|颜色 %color"
     //% weight=80 blockGap=20
     //% parts=LCM12864_SPI trackArgs=0
     //% inlineInputMode=inline
@@ -228,15 +229,16 @@ namespace LCM12864_SPI {
 }
 
     /**
-     * 显示一个整数
+     * 显示一个数
      * @param x is X alis, eg: 0
      * @param y is Y alis, eg: 0
      * @param num is the number will be show, eg: 12
      * @param color is number color, eg: 1
      */
-    //% blockId="LCM12864_SPI_NUMBER" block="显示数字 x %x|y %y|数字 %num|颜色 %color"
+    //% blockId="LCM12864_SPI_NUMBER" block="显示数字，位置(x %x, y %y)|数字 %num|颜色 %color"
     //% weight=80 blockGap=8
     //% parts=LCM12864_SPI trackArgs=0
+    //% inlineInputMode=inline
     export function showNumber(x: number, y: number, num: number, color: number = 1) {
         showString(x, y, num.toString(), color)
     }
@@ -248,9 +250,10 @@ namespace LCM12864_SPI {
      * @param len is the length of line, eg: 10
      * @param color is line color, eg: 1
      */
-    //% blockId="LCM12864_SPI_HLINE" block="绘制水平线段 x %x|y %y|长度 %len|颜色 %color"
+    //% blockId="LCM12864_SPI_HLINE" block="绘制水平线段，起点(x %x,y %y)|长度 %len|颜色 %color"
     //% weight=71 blockGap=8
     //% parts=LCM12864_SPI trackArgs=0
+    //% inlineInputMode=inline
     export function hline(x: number, y: number, len: number, color: number = 1) {
         for (let i = x; i < (x + len); i++)
             pixel(i, y, color)
@@ -263,9 +266,10 @@ namespace LCM12864_SPI {
      * @param len is the length of line, eg: 10
      * @param color is line color, eg: 1
      */
-    //% blockId="LCM12864_SPI_VLINE" block="绘制垂直线段 x %x|y %y|长度 %len|颜色 %color"
+    //% blockId="LCM12864_SPI_VLINE" block="绘制垂直线段，起点(x %x,y %y)|长度 %len|颜色 %color"
     //% weight=72 blockGap=8
     //% parts=LCM12864_SPI trackArgs=0
+    //% inlineInputMode=inline
     export function vline(x: number, y: number, len: number, color: number = 1) {
         for (let i = y; i < (y + len); i++)
             pixel(x, i, color)
@@ -279,9 +283,10 @@ namespace LCM12864_SPI {
      * @param y2 is Y alis, eg: 30
      * @param color is line color, eg: 1
      */
-    //% blockId="LCM12864_SPI_RECT" block="绘制矩形 x1 %x1|y1 %y1|x2 %x2|y2 %y2|颜色 %color"
+    //% blockId="LCM12864_SPI_RECT" block="绘制矩形，对角线(x1 %x1,y1 %y1)-(x2 %x2|y2 %y2)|颜色 %color"
     //% weight=73 blockGap=8
     //% parts=LCM12864_SPI trackArgs=0
+    //% inlineInputMode=inline
     export function rect(x1: number, y1: number, x2: number, y2: number, color: number = 1) {
         if (x1 > x2)
             x1 = [x2, x2 = x1][0];
