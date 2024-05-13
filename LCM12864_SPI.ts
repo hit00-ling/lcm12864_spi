@@ -4,7 +4,7 @@
 * http://www.micropython.org.cn
 */
 
-//% weight=20 color=#0855AA icon="\uf26c" block="希宝的液晶屏"
+//% weight=20 color=#0855AA icon="o" block="希宝的液晶屏"
 namespace LCM12864_SPI {
     let font: number[] = [];
     font[0] = 0x0022d422;
@@ -224,7 +224,7 @@ namespace LCM12864_SPI {
         let ind0 = x * 5 + y * 128
 
         pins.digitalWritePin(_a0_pin, 1);	//	LCMDI=1;
-        for(let i=ind0; i<(ind + 1); i++)
+        for(let i=(ind0+1); i<(ind + 1); i++)
             LCD_WRITE(_screen[i]);
 }
 
@@ -316,7 +316,7 @@ namespace LCM12864_SPI {
             set_pos(0,j);
             pins.digitalWritePin(_a0_pin, 1);	//	LCMDI=1;
             for(let i=0; i<128; i++)
-                LCD_WRITE(_screen[i+128*j]);
+                LCD_WRITE(_screen[i+128*j+1]);
         }
     }
 
@@ -352,9 +352,9 @@ namespace LCM12864_SPI {
 
         pins.digitalWritePin(_ce_pin, 1)
         pins.digitalWritePin(rst, 0)
-        basic.pause(20)
+        basic.pause(10)
         pins.digitalWritePin(rst, 1)
-        basic.pause(50)
+        basic.pause(20)
         pins.digitalWritePin(_a0_pin, 0)
 
         LCD_WRITE(0xe2)
