@@ -4,7 +4,7 @@
 * http://www.micropython.org.cn
 */
 
-//% weight=20 color=#0855AA icon="O" block="希宝的液晶屏"
+//% weight=8 color=#0855AA icon="O" block="希宝的液晶屏"
 namespace LCM12864_SPI {
     let font: number[] = [];
     font[0] = 0x0022d422;
